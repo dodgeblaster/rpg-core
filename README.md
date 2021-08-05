@@ -1,3 +1,5 @@
+[![CI](https://github.com/dodgeblaster/rpg-core/actions/workflows/main.yml/badge.svg)](https://github.com/dodgeblaster/rpg-core/actions/workflows/main.yml)
+
 # Goals of Project
 
 The goal of this project is to provide data structures for common
