@@ -41,6 +41,19 @@ export default class PartyMember {
         this.magicStrength = addUp('magicStrength')
     }
 
+    getStats() {
+        return {
+            hp: this.hp,
+            maxHp: this.maxHp,
+            name: this.name,
+            id: this.id,
+            physicalDefence: this.physicalDefence,
+            magicDefence: this.magicDefence,
+            physicalStrength: this.physicalStrength,
+            magicStrength: this.magicStrength
+        }
+    }
+
     // recieveAction(element: string, strength: number) {
     //     let str = strength
     //     if (this.element === element) {
