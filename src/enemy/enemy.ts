@@ -1,3 +1,5 @@
+import { min0max, min0max9999, min9999max9999 } from '../_common/utils'
+
 export type Action = {
     id: string
     name: string
@@ -17,24 +19,6 @@ export type EnemyDefinition = {
     element: string
     antiElement: string
     actions: Action[]
-}
-
-const min0max9999 = (n: number) => {
-    if (n < 0) return 0
-    if (n > 9999) return 9999
-    return n
-}
-
-const min9999max9999 = (n: number) => {
-    if (n < -9999) return -9999
-    if (n > 9999) return 9999
-    return n
-}
-
-const min0max = (max: number) => (n: number) => {
-    if (n < 0) return 0
-    if (n > max) return max
-    return n
 }
 
 export default class Enemy {

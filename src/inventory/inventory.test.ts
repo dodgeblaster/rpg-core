@@ -42,5 +42,8 @@ describe('itemsDS', () => {
 
         items.dropItem('ether')
         expect(items.listItems()).toEqual([])
+
+        const doesNotExist = items.useItem('doesNotExist')
+        expect(doesNotExist).toBe(0)
     })
 })

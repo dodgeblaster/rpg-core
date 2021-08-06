@@ -1,3 +1,5 @@
+import { randomBetween0And } from '../_common/utils'
+
 export type Input = {
     players: {
         id: string
@@ -14,11 +16,6 @@ type Player = {
     points: number
 }
 
-const randomBetween = (max: number) => {
-    if (process.env.NODE_ENV === 'test') return 0
-    return Math.floor(Math.random() * max)
-}
-
 type PotentialOffsetInput = {
     potentialOffset?: { id: string; offset: number }
 }
@@ -29,7 +26,7 @@ export default class BattleTimelineDS {
 
     constructor(input: Input) {
         if (!input.players || input.players.length === 0) {
-            throw new Error('Must have players')
+            throw new Error('Timeline needs at least 1 player')
         }
 
         this.players = input.players.map((x) => {
@@ -103,7 +100,7 @@ export default class BattleTimelineDS {
             let selected
             const lowestIds = Object.keys(whoHasTheLowest)
             if (lowestIds.length > 1) {
-                const chosenIndex = randomBetween(lowestIds.length)
+                const chosenIndex = randomBetween0And(lowestIds.length)
                 selected = speedState[lowestIds[chosenIndex]]
             }
 

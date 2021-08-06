@@ -1,6 +1,20 @@
 import BattleTimelineDS from './battleTimeline'
 
+jest.mock('../_common/utils', () => ({
+    randomBetween0And: () => 0
+}))
+
 describe('battleScheduleDS', () => {
+    test('will throw error if players is an empty array', () => {
+        try {
+            const timeline = new BattleTimelineDS({
+                players: []
+            })
+        } catch (e) {
+            expect(e.message).toBe('Timeline needs at least 1 player')
+        }
+    })
+
     test('will calculate timeline', () => {
         const timeline = new BattleTimelineDS({
             players: [

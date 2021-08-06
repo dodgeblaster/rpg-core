@@ -33,5 +33,14 @@ test('PartyMember can getStats', () => {
         ]
     })
 
-    console.log('memmmm: ', member.getStats())
+    expect(member.getStats()).toEqual({
+        hp: 100,
+        maxHp: 100,
+        name: 'John',
+        id: 'm_1234',
+        physicalDefence: 30,
+        magicDefence: 2,
+        physicalStrength: 14,
+        magicStrength: 3
+    })
 })
