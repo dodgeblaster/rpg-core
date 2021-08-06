@@ -28,7 +28,7 @@ function startBattle(input) {
     ])
 
     // setup listeners and event emitters
-    document.getElementById('attack', () => {
+    document.getElementById.addEventListener('attack', () => {
         // update timeline
         battleTimeline.takeTurn({ id: 'me', offset: 0 })
         emit('updateTimeLine', battleTimeline.getTimeline())
