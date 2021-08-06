@@ -1,5 +1,3 @@
-import { InventoryDSInterface } from './interface'
-
 type Item = {
     name: string
     id: string
@@ -13,17 +11,27 @@ type Items = Record<
     }
 >
 
-export default class InventoryDS implements InventoryDSInterface {
+type ItemInInventory = {
+    name: string
+    id: string
+    count: number
+}
+
+export default class InventoryDS {
     items: Items
 
     constructor(items: Items) {
         this.items = items
     }
 
-    addItem(item: Item) {
-        if (this.items[item.id]) {
-            this.items[item.id].count++
-        } else {
+    addItem(item: Item): void {
+        const itemInInvetory = this.items[item.id]
+
+        if (itemInInvetory) {
+            itemInInvetory.count++
+        }
+
+        if (!itemInInvetory) {
             this.items[item.id] = {
                 count: 1,
                 item: item
@@ -31,16 +39,16 @@ export default class InventoryDS implements InventoryDSInterface {
         }
     }
 
-    listItems() {
-        return Object.keys(this.items).map((k) => {
-            return {
-                ...this.items[k].item,
-                count: this.items[k].count
-            }
-        })
+    listItems(): ItemInInventory[] {
+        const itemIds = Object.keys(this.items)
+        return itemIds.map((id) => ({
+            id: this.items[id].item.id,
+            name: this.items[id].item.name,
+            count: this.items[id].count
+        }))
     }
 
-    useItem(id: string) {
+    useItem(id: string): number {
         if (!this.items[id]) {
             return 0
         }
@@ -48,13 +56,13 @@ export default class InventoryDS implements InventoryDSInterface {
         if (this.items[id].count <= 1) {
             delete this.items[id]
             return 0
-        } else {
-            this.items[id].count--
-            return this.items[id].count
         }
+
+        this.items[id].count--
+        return this.items[id].count
     }
 
-    dropItem(id: string) {
+    dropItem(id: string): number {
         delete this.items[id]
         return 0
     }

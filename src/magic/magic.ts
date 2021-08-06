@@ -17,29 +17,62 @@ type Input = {
     party: PartyMember[]
 }
 
+/**
+ * This function takes an array of party members, and is interested in 2 things:
+ * - party members mp
+ * - party members abilities or actions
+ *
+ * This function loops thru all members and creates 3 maps:
+ * - one map where the key is member id, and value is available MP
+ * - one map where the key is member id, and value is max MP (does not change)
+ * - one map where the key is member id, and the value is a map
+ *      - this map has a key of action id, and value of action
+ */
+function buildUpMagicState(party: PartyMember[]) {
+    const buildMpMap = (state: any, partyMember: PartyMember) => {
+        state.mp[partyMember.id] = partyMember.mp
+        return state
+    }
+
+    const buildMaxMpMap = (state: any, partyMember: PartyMember) => {
+        state.maxMp[partyMember.id] = partyMember.mp
+        return state
+    }
+
+    const buildActionMap = (state: any, partyMember: PartyMember) => {
+        state.actions[partyMember.id] = {}
+        partyMember.actions.forEach((x: Action) => {
+            state.actions[partyMember.id][x.id] = x
+        })
+        return state
+    }
+
+    const buildUpContext = (state: any, partyMember: PartyMember) => {
+        state = buildMpMap(state, partyMember)
+        state = buildMaxMpMap(state, partyMember)
+        state = buildActionMap(state, partyMember)
+        return state
+    }
+
+    const initialState = {
+        mp: {},
+        maxMp: {},
+        actions: {}
+    }
+
+    return party.reduce(buildUpContext, initialState)
+}
+
 export default class Magic {
     mp: Record<string, number>
     maxMp: Record<string, number>
     actions: Record<string, any>
 
     constructor(input: Input) {
-        this.mp = input.party.reduce((acc, x) => {
-            acc[x.id] = x.mp
-            return acc
-        }, {} as Record<string, number>)
-
-        this.maxMp = input.party.reduce((acc, x) => {
-            acc[x.id] = x.mp
-            return acc
-        }, {} as Record<string, number>)
-
-        this.actions = input.party.reduce((acc, x) => {
-            acc[x.id] = x.actions.reduce((acc, x) => {
-                acc[x.id] = x
-                return acc
-            }, {} as any)
-            return acc
-        }, {} as Record<string, any>)
+        const result = buildUpMagicState(input.party)
+        this.mp = result.mp
+        this.maxMp = result.maxMp
+        this.actions = result.actions
     }
 
     cast(input: { partyMemberId: string; actionId: string }) {
@@ -55,6 +88,7 @@ export default class Magic {
 
         this.mp[input.partyMemberId] =
             this.mp[input.partyMemberId] - action.cost
+
         return {
             action,
             status: 'SUCCESS',
