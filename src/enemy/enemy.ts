@@ -60,21 +60,19 @@ export default class Enemy {
         const WEAK_AGAINST_ELEMENT = this.antiElement === element
         const NORMAL = this.antiElement !== element && this.element !== element
 
-        let str = strength
-
         if (STRONG_AGAINST_ELEMENT) {
-            str = min9999max9999(str * 0.9 - this.defense)
+            strength = min9999max9999(strength * 0.9 - this.defense)
         }
 
         if (WEAK_AGAINST_ELEMENT) {
-            str = min0max9999(str * 1.18 - this.defense)
+            strength = min0max9999(strength * 1.18 - this.defense)
         }
 
         if (NORMAL) {
-            str = min0max9999(str * 1 - this.defense)
+            strength = min0max9999(strength * 1 - this.defense)
         }
 
-        const final = Math.floor(str * 100)
+        const final = Math.floor(strength * 100)
         this.hp = min0max(this.maxHp)(this.hp - final)
 
         return {
