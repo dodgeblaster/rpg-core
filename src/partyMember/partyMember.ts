@@ -25,6 +25,9 @@ export default class PartyMember {
     magicStrength
 
     constructor(def: PartyMemberDefinition) {
+        if (process.env.NODE_ENV !== 'test') {
+            throw new Error('Not available')
+        }
         const addUp = (attr: string) =>
             def.equipment.reduce((acc, x: any) => acc + x[attr], 0)
 

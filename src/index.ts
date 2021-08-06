@@ -1,7 +1,7 @@
-import BattleTimeline from './battleTimeline'
-import Enemy from './enemy'
-import Inventory from './inventory'
-import Magic from './magic'
+import BattleTimeline from './battleTimeline/battleTimeline'
+import Enemy from './enemy/enemy'
+import Inventory from './inventory/index'
+import Magic from './magic/magic'
 
 export default {
     BattleTimeline,
